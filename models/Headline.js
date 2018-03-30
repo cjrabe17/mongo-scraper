@@ -5,18 +5,21 @@ var Schema = mongoose.Schema;
 var HeadlineSchema = new Schema({
     headline: {
         type: String,
+        required: true,
+        unique: true
+    },
+    summary: {
+        type: String,
         required: true
     },
-    summary: String,
     url: {
         type: String,
         required: true
     },
-    note: {
-        type: Schema.Types.ObjectId,
-        ref: "Note"
+    date: {
+        type: Date,
+        default: Date.now()
     },
-    date: Date.now(),
     saved: {
         type: Boolean,
         default: false

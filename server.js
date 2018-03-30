@@ -9,7 +9,7 @@ var app = express();
 
 var routes = require("./routes");
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("/public"));
 
 app.engine("handlebars", expressHandlebars({
     defaultLayout: "main"
