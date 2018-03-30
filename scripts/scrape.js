@@ -1,27 +1,27 @@
 var cheerio = require("cheerio");
 var request = require("request");
 
-var scrape = function (callback) {
-    request("https://www.theonion.com/", function(err, res, body) {
-        var $ = cheerio.load(body);
+var scrape = function(cb) {
+    console.log("scrape script being accessed");
+    request("http://www.nytimes.com", function(err, res, html) {
+        var $ = cheerio.load(html);
+        var results = [];
 
-        var articles = [];
-    
-        $("div.curation-module__item").each(function(i, element) {
-            var headlineText = $(element).find("a").text();
-            var headlineLink = $(element).find("a").attr("href");
+        $(".theme-summary").each(function(i, element) {
+            var head = $(this).children(".story-heading").text().trim();
+            var sum = $(this).children(".summary").text().trim();
 
-            if (headlineLink && headlineText) {
-                var newData = {
-                    headline: headlineText,
-                    Link: headlineLink
-                };
+            results.push({
+                headline: head,
+                summary: sum
+            });
 
-                articles.push(newData);
+            if (results.headline && results.summary && results.link) {
+                var newEntry = new Headline(results);
+                newEntry.save();
             }
         });
-        callback(articles);
     });
-}
+};
 
 module.exports = scrape;

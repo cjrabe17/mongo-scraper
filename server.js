@@ -9,7 +9,7 @@ var app = express();
 
 var routes = require("./routes");
 
-app.use(express.static("/public"));
+app.use(express.static("public"));
 
 app.engine("handlebars", expressHandlebars({
     defaultLayout: "main"
@@ -19,6 +19,9 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+app.use(bodyParser.json());
+
+app.use(routes);
 
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
