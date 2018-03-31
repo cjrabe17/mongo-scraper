@@ -10,7 +10,7 @@ var scrape = function(res, req) {
         $(".js-card__content").each(function(i, element) {
             var head = $(this).find("a").find("h2").text();
             var sum = $(this).find("a").find(".js-card__description").text();
-            var link = "www.buzzfeed.com" + $(this).find("a").attr("href");
+            var link = "https://www.buzzfeed.com" + $(this).find("a").attr("href");
 
             if (head && sum && link) {
                 db.Headline.insertMany({

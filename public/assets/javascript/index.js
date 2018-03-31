@@ -29,7 +29,7 @@ $(document).ready(function() {
     }
 
     function createPanel(article) {
-      var panel = $([
+        var panel = $([
             "<div class='panel panel-default'>",
             "<div class='panel-heading'>",
             "<h3>",
@@ -44,8 +44,7 @@ $(document).ready(function() {
             "<div class='panel-body'>",
             article.summary,
             "</div>",
-            "</div>"
-        ].join("")
+            "</div>"].join("")
         );
         panel.data("_id", article._id);
         return panel;
@@ -60,8 +59,7 @@ $(document).ready(function() {
             "<div class='panel-heading text-center'>",
             "<h4><a href='/saved'>Go to Saved Articles</a></h4>",
             "</div>",
-            "</div>"
-        ].join("")
+            "</div>"].join("")
         );
         articleContainer.append(emptyAlert);
     }
@@ -74,12 +72,13 @@ $(document).ready(function() {
     }
 
     function handleArticleSave() {
+        console.log("tryna save");
         var articleToSave = $(this).parents(".panel").data();
-        articleToSave.saved = true;
+        console.log(articleToSave);
 
         $.ajax({
             method: "PUT",
-            url: "/api/headlines",
+            url: "/api/headlines/" + articleToSave._id,
             data: articleToSave
         }).then(function(data) {
             if (data.ok) {
