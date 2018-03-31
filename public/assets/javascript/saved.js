@@ -4,7 +4,7 @@ $(document).ready(function() {
 
     $(document).on("click", ".btn.delete", handleArticleDelete);
     $(document).on("click", ".btn.notes", handleArticleNotes);
-    $(document).on("click", ".btn.save", handleNoteSave);
+    $(document).on("click", ".btn.save-note", handleNoteSave);
     $(document).on("click", ".btn.note-delete", handleNoteDelete);
 
     initPage();
@@ -72,6 +72,7 @@ $(document).ready(function() {
         var notesToRender = [];
         var currentNote;
         if (!data.notes.length) {
+            console.log("note length: " + data.notes.length);
             currentNote = ["<li class='list-group-item'>", "No notes for this article yet.", "</li>"].join("");
             notesToRender.push(currentNote);
         } else {
@@ -113,7 +114,7 @@ $(document).ready(function() {
                 "<ul class='list-group note-container'>",
                 "</ul>",
                 "<textarea placeholder='New Note' rows='4' cols='60'></textarea>",
-                "<button class='btn btn-success save'>Save Note</button>",
+                "<button class='btn btn-success save-note'>Save Note</button>",
                 "</div>"].join("");
         
                 bootbox.dialog({
@@ -124,7 +125,7 @@ $(document).ready(function() {
                 _id: currentArticle._id,
                 notes: data || []
             };
-            $(".btn.save").data("article", noteData);
+            $(".btn.save-note").data("article", noteData);
                 renderNotesList(noteData);
         });
     }
@@ -134,11 +135,11 @@ $(document).ready(function() {
         var newNote = $(".bootbox-body textarea").val().trim();
         if (newNote) {
             noteData = {
-            _id: $(this).data("article")._id,
-            noteText: newNote
+                _id: $(this).data("article")._id,
+                noteText: newNote
             };
             $.post("/api/notes", noteData).then(function() {
-            bootbox.hideAll();
+                bootbox.hideAll();
             });
         }
     }
