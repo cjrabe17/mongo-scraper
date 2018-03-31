@@ -79,10 +79,6 @@ $(document).ready(function() {
           "</div>",
           "<div class='panel panel-default'>",
           "<div class='panel-heading text-center'>",
-          "<h3>What Would You Like To Do?</h3>",
-          "</div>",
-          "<div class='panel-body text-center'>",
-          "<h4><a class='scrape-new'>Try Scraping New Articles</a></h4>",
           "<h4><a href='/saved'>Go to Saved Articles</a></h4>",
           "</div>",
           "</div>"

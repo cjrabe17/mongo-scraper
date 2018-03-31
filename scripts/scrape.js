@@ -1,24 +1,30 @@
 var cheerio = require("cheerio");
 var request = require("request");
+var db = require(".././models");
 
-var scrape = function(cb) {
-    console.log("scrape script being accessed");
-    request("http://www.nytimes.com", function(err, res, html) {
+var scrape = function(res, req) {
+    request("http://www.buzzfeed.com", function(err, res, html) {
         var $ = cheerio.load(html);
         var results = [];
 
-        $(".theme-summary").each(function(i, element) {
-            var head = $(this).children(".story-heading").text().trim();
-            var sum = $(this).children(".summary").text().trim();
+        $(".js-card__content").each(function(i, element) {
+            var head = $(this).find("a").find("h2").text();
+            var sum = $(this).find("a").find(".js-card__description").text();
+            var link = "www.buzzfeed.com" + $(this).find("a").attr("href");
 
-            results.push({
-                headline: head,
-                summary: sum
-            });
-
-            if (results.headline && results.summary && results.link) {
-                var newEntry = new Headline(results);
-                newEntry.save();
+            if (head && sum && link) {
+                db.Headline.insertMany({
+                    headline: head,
+                    summary: sum,
+                    url: link
+                },
+                function(err, inserted) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(inserted);
+                    }
+                });
             }
         });
     });
